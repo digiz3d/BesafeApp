@@ -13,7 +13,7 @@ import PictureListScreen from "../screens/PictureListScreen";
 import VideoListScreen from "../screens/VideoListScreen";
 import StreamScreen from "../screens/StreamScreen";
 
-const MainTabNvigator = createBottomTabNavigator(
+const MainTabNavigator = createBottomTabNavigator(
   {
     VideoList: {
       screen: VideoListScreen,
@@ -40,7 +40,7 @@ const MainTabNvigator = createBottomTabNavigator(
 const MainSwitchNavigator = createSwitchNavigator(
   {
     AuthLoading: { screen: AuthLoadingScreen },
-    Main: { screen: MainTabNvigator },
+    Main: { screen: MainTabNavigator },
     Auth: { screen: AuthScreen }
   },
   {
