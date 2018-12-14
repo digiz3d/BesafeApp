@@ -1,17 +1,25 @@
-import axios from "axios";
-import { createClient } from "webdav";
+import { createClient, axios } from "webdav";
 import { apiBaseURL } from "./config";
 
 let client;
 
-export function setLoginPassword(login, password) {
+export async function setLoginPassword(login, password) {
+  if (axios.default.headers && axios.default.headers.Cookie) {
+    axios.default.headers.Cookie = "";
+  }
+
+  if (axios.headers && axios.headers.Cookie) {
+    axios.headers.Cookie = "";
+  }
+
   client = createClient(apiBaseURL, {
     username: login,
     password: password
   });
-}
 
-setLoginPassword("root", "root");
+  const items = await client.getDirectoryContents("/");
+  return items;
+}
 
 export async function getVideos() {
   if (!client) return false;
@@ -26,19 +34,3 @@ export async function getPictures() {
   const items = await client.getDirectoryContents("Photos/");
   return items;
 }
-
-
-
-/*
-import * as base64 from "base-64";
-
-const api = axios.create({
-  baseURL: apiBaseURL,
-  validateStatus: () => true
-});
-
-export function setLoginPassword(login, password) {
-  api.default.header.common.Authorization =
-    "Basic " + base64.encode(login + ":" + password);
-}
-*/

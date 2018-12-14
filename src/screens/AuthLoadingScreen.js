@@ -20,7 +20,7 @@ class AuthLoadingScreen extends React.Component {
     const { status } = this.props;
     // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
-      setTimeout(resolve, 1000);
+      setTimeout(reject, 1000);
     })
       .then(() => true)
       .catch(() => false);
