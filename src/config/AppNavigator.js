@@ -1,4 +1,6 @@
 import React from "react";
+import { View } from "react-native";
+
 import {
   createBottomTabNavigator,
   createStackNavigator,
@@ -31,6 +33,12 @@ const MainTabNavigator = createBottomTabNavigator(
       screen: StreamScreen,
       navigationOptions: {
         tabBarIcon: <Ionicons name="ios-play" color="#6CD3DB" size={30} />
+      }
+    },
+    Help: {
+      screen: () => <View />,
+      navigationOptions: {
+        tabBarIcon: <Ionicons name="md-help" color="#6CD3DB" size={30} />
       }
     }
   },

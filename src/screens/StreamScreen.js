@@ -6,7 +6,7 @@ export default class StreamScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Video player</Text>
+        <Text style={styles.welcome}>Livestream</Text>
         <KSYVideo
           source={{ uri: "rtmp://10.92.4.75/live" }} // Can be a URL or a local file.
           ref={ref => {
