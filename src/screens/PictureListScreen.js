@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 
 import { getPictures } from "../config/WebDavClient";
 
@@ -16,9 +10,15 @@ export default class PictureListScreen extends React.Component {
     this.state = {
       items: []
     };
+
+    this.refreshPictures = this.refreshPictures.bind(this);
   }
 
   async componentDidMount() {
+    await this.refreshPictures();
+  }
+
+  async refreshPictures() {
     const files = await getPictures();
     this.setState({ items: files });
   }
@@ -32,18 +32,11 @@ export default class PictureListScreen extends React.Component {
           <FlatList
             style={styles.pictureList}
             data={this.state.items}
-            keyExtractor={item => item.filename}
             renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={item => {
-                  console.warn("CLICKEEEED");
-                }}
-              >
-                <Text style={styles.pictureItem}>{item.filename}</Text>
-              </TouchableOpacity>
+              <Text style={styles.pictureItem}>{item.filename}</Text>
             )}
             refreshing={false}
-            onRefresh={() => console.warn("refreshing video list")}
+            onRefresh={() => this.refreshPictures()}
           />
         )}
       </View>
@@ -65,8 +58,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   pictureItem: {
-    borderWidth: 0.5,
-    borderColor: "silver",
     padding: 10
   }
 });

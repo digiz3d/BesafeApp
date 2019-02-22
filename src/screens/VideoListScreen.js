@@ -10,9 +10,15 @@ export default class VideoListScreen extends React.Component {
     this.state = {
       items: []
     };
+
+    this.refreshVids = this.refreshVids.bind(this);
   }
 
   async componentDidMount() {
+    await this.refreshVids();
+  }
+
+  async refreshVids() {
     const files = await getVideos();
     this.setState({ items: files });
   }
@@ -30,7 +36,7 @@ export default class VideoListScreen extends React.Component {
               <Text style={styles.videoItem}>{item.filename}</Text>
             )}
             refreshing={false}
-            onRefresh={() => console.log("refreshing video list")}
+            onRefresh={() => this.refreshVids()}
           />
         )}
       </View>
@@ -51,5 +57,7 @@ const styles = StyleSheet.create({
   videoList: {
     flex: 1
   },
-  videoItem: {}
+  videoItem: {
+    padding: 10
+  }
 });

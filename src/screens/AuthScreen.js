@@ -36,7 +36,10 @@ export default class PictureList extends React.Component {
       this.state.loginValue,
       this.state.passwordValue
     );
-    console.warn(res);
+    
+    if (res) {
+      this.props.navigation.navigate('Main');
+    }
   }
   render() {
     const inputDisabled =
