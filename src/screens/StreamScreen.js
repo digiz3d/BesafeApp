@@ -38,7 +38,7 @@ export default class StreamScreen extends React.Component {
         {this.state.activity !== "" ? <Text>{this.state.activity}</Text> : null}
         <ActivityIndicator size="large" color="red" />
         <KSYVideo
-          source={{ uri: "rtmp://10.92.5.121/live" }} // Can be a URL or a local file.
+          source={{ uri: "rtmp://10.92.0.212/big" }} // Can be a URL or a local file.
           ref={ref => {
             this.player = ref;
           }} // Store reference
