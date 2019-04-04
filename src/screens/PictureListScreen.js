@@ -1,14 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 
-import { getPictures } from "../config/WebDavClient";
+import {
+  getPictures,
+  getPictureBase64,
+  getPictureURL
+} from "../config/WebDavClient";
 
 export default class PictureListScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      items: []
+      items: [],
+      pictures: []
     };
 
     this.refreshPictures = this.refreshPictures.bind(this);
@@ -20,7 +25,15 @@ export default class PictureListScreen extends React.Component {
 
   async refreshPictures() {
     const files = await getPictures();
-    this.setState({ items: files });
+
+    const pictures = [];
+    console.warn("cc cc");
+    for (let f in files) {
+      pictures[f.filename] = await getPictureBase64(f.filename);
+    }
+    console.warn("voila voila");
+
+    this.setState({ items: files, pictures });
   }
 
   render() {
@@ -33,7 +46,16 @@ export default class PictureListScreen extends React.Component {
             style={styles.pictureList}
             data={this.state.items}
             renderItem={({ item }) => (
-              <Text style={styles.pictureItem}>{item.filename}</Text>
+              <View>
+                <Text>test: {getPictureURL(item.filename)}</Text>
+                {this.state.pictures[item.filename] !== "" ? (
+                  <Image
+                    source={{ uri: this.state.pictures[item.filename] }}
+                    style={{ height: 60, width: 60, backgroundColor: "red" }}
+                  />
+                ) : null}
+                <Text style={styles.pictureItem}>{item.filename}</Text>
+              </View>
             )}
             refreshing={false}
             onRefresh={() => this.refreshPictures()}

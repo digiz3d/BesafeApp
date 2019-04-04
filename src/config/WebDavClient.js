@@ -1,5 +1,6 @@
 import { createClient, axios } from "webdav";
 import { apiBaseURL } from "./config";
+import { encode } from "base-64";
 
 let client;
 let testUser = false;
@@ -48,4 +49,15 @@ export async function getPictures() {
 
   const items = await client.getDirectoryContents("Photos/");
   return items;
+}
+
+export function getPictureURL(name) {
+  const downloadLink = client.getFileDownloadLink(name);
+  console.warn(downloadLink);
+  return downloadLink;
+}
+
+export async function getPictureBase64(name) {
+  const pic = await client.getFileContents(name);
+  return "data:image/jpg;base64," + encode(pic);
 }
