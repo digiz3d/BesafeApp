@@ -14,7 +14,17 @@ import AuthScreen from "../screens/AuthScreen";
 import PictureListScreen from "../screens/PictureListScreen";
 import PictureDetailsScreen from "../screens/PictureDetailsScreen";
 import VideoListScreen from "../screens/VideoListScreen";
+import VideoDetailsScreen from "../screens/VideoDetailsScreen";
 import StreamScreen from "../screens/StreamScreen";
+
+const VideoStackNavigator = createStackNavigator({
+  VideoList: {
+    screen: VideoListScreen
+  },
+  VideoDetails: {
+    screen: VideoDetailsScreen
+  }
+});
 
 const PictureStackNavigator = createStackNavigator(
   {
@@ -30,8 +40,8 @@ const PictureStackNavigator = createStackNavigator(
 
 const MainTabNavigator = createBottomTabNavigator(
   {
-    VideoList: {
-      screen: VideoListScreen,
+    VideoStack: {
+      screen: VideoStackNavigator,
       navigationOptions: {
         tabBarIcon: <Ionicons name="ios-videocam" color="#6CD3DB" size={30} />
       }
