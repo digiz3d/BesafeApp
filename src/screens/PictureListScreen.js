@@ -49,6 +49,7 @@ export default class PictureListScreen extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Pictures list</Text>
@@ -58,18 +59,46 @@ export default class PictureListScreen extends React.Component {
             style={styles.pictureList}
             data={this.state.items}
             renderItem={({ item }) => (
-              <TouchableOpacity key={"view-" + item.filename} style={{flexDirection: 'row', marginVertical: 5}}>
+              <TouchableOpacity
+                key={"view-" + item.filename}
+                style={{ flexDirection: "column", padding: 3 }}
+                onPress={() =>
+                  navigation.navigate("PictureDetails", {
+                    url: getPictureURL(item.filename)
+                  })
+                }
+              >
                 {/*<Text>test: {getPictureURL(item.filename)}</Text>*/}
                 {this.state.pictures[item.filename] !== "" ? (
-                  <Image
-                    source={{
-                      uri: getPictureURL(item.filename),
-                      headers: { Authorization: authHeader }
-                    }}
-                    style={{ height: 60, width: 60, backgroundColor: "purple" }}
-                  />
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      source={{
+                        uri: getPictureURL(item.filename),
+                        headers: { Authorization: authHeader }
+                      }}
+                      style={{ height: 60, width: 60 }}
+                    />
+                    <Text
+                      style={[
+                        styles.pictureItem,
+                        { height: 60, lineHeight: 50, fontSize: 16 }
+                      ]}
+                    >
+                      {item.basename}
+                    </Text>
+                  </View>
                 ) : null}
-                <Text style={styles.pictureItem}>{item.basename}</Text>
+
+                <View
+                  style={{
+                    width: "80%",
+                    height: 1,
+                    backgroundColor: "#bbb",
+                    position: "relative",
+                    left: "10%",
+                    marginTop: 6
+                  }}
+                />
               </TouchableOpacity>
             )}
             refreshing={false}

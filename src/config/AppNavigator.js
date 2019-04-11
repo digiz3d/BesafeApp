@@ -12,8 +12,21 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import AuthScreen from "../screens/AuthScreen";
 import PictureListScreen from "../screens/PictureListScreen";
+import PictureDetailsScreen from "../screens/PictureDetailsScreen";
 import VideoListScreen from "../screens/VideoListScreen";
 import StreamScreen from "../screens/StreamScreen";
+
+const PictureStackNavigator = createStackNavigator(
+  {
+    PictureList: {
+      screen: PictureListScreen
+    },
+    PictureDetails: {
+      screen: PictureDetailsScreen
+    }
+  },
+  { headerMode: "none" }
+);
 
 const MainTabNavigator = createBottomTabNavigator(
   {
@@ -23,8 +36,8 @@ const MainTabNavigator = createBottomTabNavigator(
         tabBarIcon: <Ionicons name="ios-videocam" color="#6CD3DB" size={30} />
       }
     },
-    PictureList: {
-      screen: PictureListScreen,
+    PictureStack: {
+      screen: PictureStackNavigator,
       navigationOptions: {
         tabBarIcon: <Ionicons name="ios-camera" color="#6CD3DB" size={30} />
       }
