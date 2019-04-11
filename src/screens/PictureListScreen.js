@@ -25,13 +25,23 @@ export default class PictureListScreen extends React.Component {
 
   async refreshPictures() {
     const files = await getPictures();
+    console.warn(files);
+    let pictures = {};
 
-    const pictures = [];
     console.warn("cc cc");
-    for (let f in files) {
-      pictures[f.filename] = await getPictureBase64(f.filename);
+    try {
+      for (let f in files) {
+        console.warn("f vaut " + f);
+        console.warn("files[f].filename vaut " + files[f].filename);
+        pictures[files[f].filename] = "TEST";
+        pictures[files[f].filename] = await getPictureBase64(files[f].filename);
+      }
+    } catch (e) {
+      console.warn("ça va pas du tout" + e);
     }
-    console.warn("voila voila");
+    console.warn("voila voila 1");
+    console.warn(pictures);
+    console.warn("voila voila 2");
 
     this.setState({ items: files, pictures });
   }
@@ -46,8 +56,8 @@ export default class PictureListScreen extends React.Component {
             style={styles.pictureList}
             data={this.state.items}
             renderItem={({ item }) => (
-              <View>
-                <Text>test: {getPictureURL(item.filename)}</Text>
+              <View key={"view-" + item.filename}>
+                {/*<Text>test: {getPictureURL(item.filename)}</Text>*/}
                 {this.state.pictures[item.filename] !== "" ? (
                   <Image
                     source={{ uri: this.state.pictures[item.filename] }}

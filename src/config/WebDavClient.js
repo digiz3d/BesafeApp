@@ -59,5 +59,11 @@ export function getPictureURL(name) {
 
 export async function getPictureBase64(name) {
   const pic = await client.getFileContents(name);
-  return "data:image/jpg;base64," + encode(pic);
+  console.warn("pic vaut ça : "+ pic);
+  let string = String.fromCharCode(...new Uint8Array(pic))
+  let base64String = encode(string);
+
+  console.warn(base64String);
+
+  return "data:image/jpg;base64," + base64String;
 }
