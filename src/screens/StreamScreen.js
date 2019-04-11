@@ -1,33 +1,34 @@
 import React from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import KSYVideo from "react-native-ksyvideo";
+import { streamingURL } from "../config/config";
 
 export default class StreamScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activity: '',
+      activity: "",
       buffering: true
     };
   }
 
   onProgress() {
-    this.setBuffering(false, '');
+    this.setBuffering(false, "");
   }
 
   onLoad() {
-    this.setBuffering(true, 'on load');
+    this.setBuffering(true, "on load");
   }
 
   onLoadStart() {
-    this.setBuffering(true, 'on load start');
+    this.setBuffering(true, "on load start");
   }
 
   onBuffer() {
-    this.setBuffering(true, 'on buffer');
+    this.setBuffering(true, "on buffer");
   }
 
-  setBuffering(buffering = true, text = '') {
+  setBuffering(buffering = true, text = "") {
     this.setState({ buffering, activity: text });
   }
 
@@ -38,7 +39,7 @@ export default class StreamScreen extends React.Component {
         {this.state.activity !== "" ? <Text>{this.state.activity}</Text> : null}
         <ActivityIndicator size="large" color="red" />
         <KSYVideo
-          source={{ uri: "rtmp://10.92.0.212/big" }} // Can be a URL or a local file.
+          source={{ uri: streamingURL }} // Can be a URL or a local file.
           ref={ref => {
             this.player = ref;
           }} // Store reference
