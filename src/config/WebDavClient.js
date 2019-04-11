@@ -1,8 +1,9 @@
 import { createClient, axios } from "webdav";
-import { apiBaseURL } from "./config";
+import { apiBaseURL, videosURL, photosURL } from "./config";
 import { encode } from "base-64";
 
 let client;
+export let authHeader;
 let testUser = false;
 const fakeFiles = [{ filename: "okok.jpg" }, { filename: "ouioui.jpg" }];
 const fakePhotos = [{ filename: "okok.jpg" }, { filename: "ouioui.jpg" }];
@@ -27,6 +28,7 @@ export async function setLoginPassword(login, password) {
     password: password
   });
 
+  authHeader = 'Basic '+encode(login+':'+password);
   const items = await client.getDirectoryContents("/");
   return items;
 }
@@ -37,7 +39,7 @@ export async function getVideos() {
   }
   if (!client) return false;
 
-  const items = await client.getDirectoryContents("Videos/");
+  const items = await client.getDirectoryContents(videosURL);
   return items;
 }
 
@@ -47,13 +49,13 @@ export async function getPictures() {
   }
   if (!client) return false;
 
-  const items = await client.getDirectoryContents("Photos/");
+  const items = await client.getDirectoryContents(photosURL);
   return items;
 }
 
 export function getPictureURL(name) {
   const downloadLink = client.getFileDownloadLink(name);
-  console.warn(downloadLink);
+  //console.warn(downloadLink);
   return downloadLink;
 }
 
@@ -63,6 +65,7 @@ export async function getPictureBase64(name) {
   let string = String.fromCharCode(...new Uint8Array(pic))
   let base64String = encode(string);
 
+  console.warn('base 64 :');
   console.warn(base64String);
 
   return "data:image/jpg;base64," + base64String;

@@ -1,10 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity
+} from "react-native";
 
 import {
   getPictures,
   getPictureBase64,
-  getPictureURL
+  getPictureURL,
+  authHeader
 } from "../config/WebDavClient";
 
 export default class PictureListScreen extends React.Component {
@@ -31,18 +39,12 @@ export default class PictureListScreen extends React.Component {
     console.warn("cc cc");
     try {
       for (let f in files) {
-        console.warn("f vaut " + f);
         console.warn("files[f].filename vaut " + files[f].filename);
-        pictures[files[f].filename] = "TEST";
-        pictures[files[f].filename] = await getPictureBase64(files[f].filename);
+        pictures[files[f].filename] = files[f].filename;
       }
     } catch (e) {
       console.warn("ça va pas du tout" + e);
     }
-    console.warn("voila voila 1");
-    console.warn(pictures);
-    console.warn("voila voila 2");
-
     this.setState({ items: files, pictures });
   }
 
@@ -56,16 +58,19 @@ export default class PictureListScreen extends React.Component {
             style={styles.pictureList}
             data={this.state.items}
             renderItem={({ item }) => (
-              <View key={"view-" + item.filename}>
+              <TouchableOpacity key={"view-" + item.filename} style={{flexDirection: 'row', marginVertical: 5}}>
                 {/*<Text>test: {getPictureURL(item.filename)}</Text>*/}
                 {this.state.pictures[item.filename] !== "" ? (
                   <Image
-                    source={{ uri: this.state.pictures[item.filename] }}
-                    style={{ height: 60, width: 60, backgroundColor: "red" }}
+                    source={{
+                      uri: getPictureURL(item.filename),
+                      headers: { Authorization: authHeader }
+                    }}
+                    style={{ height: 60, width: 60, backgroundColor: "purple" }}
                   />
                 ) : null}
-                <Text style={styles.pictureItem}>{item.filename}</Text>
-              </View>
+                <Text style={styles.pictureItem}>{item.basename}</Text>
+              </TouchableOpacity>
             )}
             refreshing={false}
             onRefresh={() => this.refreshPictures()}
