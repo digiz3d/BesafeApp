@@ -38,8 +38,9 @@ export async function getVideos() {
     return fakeVids;
   }
   if (!client) return false;
-
+  
   const items = await client.getDirectoryContents(videosURL);
+  console.warn(items);
   return items;
 }
 
@@ -53,20 +54,7 @@ export async function getPictures() {
   return items;
 }
 
-export function getPictureURL(name) {
+export function getFileURL(name) {
   const downloadLink = client.getFileDownloadLink(name);
-  //console.warn(downloadLink);
   return downloadLink;
-}
-
-export async function getPictureBase64(name) {
-  const pic = await client.getFileContents(name);
-  console.warn("pic vaut ça : "+ pic);
-  let string = String.fromCharCode(...new Uint8Array(pic))
-  let base64String = encode(string);
-
-  console.warn('base 64 :');
-  console.warn(base64String);
-
-  return "data:image/jpg;base64," + base64String;
 }

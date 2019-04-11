@@ -1,7 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity
+} from "react-native";
 
-import { getVideos } from "../config/WebDavClient";
+import { getVideos, getFileURL, authHeader } from "../config/WebDavClient";
 
 export default class VideoListScreen extends React.Component {
   constructor(props) {
@@ -24,6 +31,7 @@ export default class VideoListScreen extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Videos list</Text>
@@ -32,11 +40,44 @@ export default class VideoListScreen extends React.Component {
           <FlatList
             style={styles.videoList}
             data={this.state.items}
-            renderItem={({ item }) => (
-              <Text style={styles.videoItem}>{item.filename}</Text>
-            )}
             refreshing={false}
             onRefresh={() => this.refreshVids()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                key={"view-" + item.filename}
+                style={{ flexDirection: "column", padding: 3 }}
+                onPress={() =>
+                  navigation.navigate("VideoDetails", {
+                    url: getFileURL(item.filename)
+                  })
+                }
+              >
+                <View style={{ flexDirection: "row" }}>
+                <Image
+                    source={require('../assets/video-icon.png')}
+                    style={{ height: 60, width: 60 }}
+                  />
+                  <Text
+                    style={[
+                      styles.videoItem,
+                      { height: 60, lineHeight: 50, fontSize: 16 }
+                    ]}
+                  >
+                    {item.basename}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: "80%",
+                    height: 1,
+                    backgroundColor: "#bbb",
+                    position: "relative",
+                    left: "10%",
+                    marginTop: 6
+                  }}
+                />
+              </TouchableOpacity>
+            )}
           />
         )}
       </View>

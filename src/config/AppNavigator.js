@@ -17,14 +17,17 @@ import VideoListScreen from "../screens/VideoListScreen";
 import VideoDetailsScreen from "../screens/VideoDetailsScreen";
 import StreamScreen from "../screens/StreamScreen";
 
-const VideoStackNavigator = createStackNavigator({
-  VideoList: {
-    screen: VideoListScreen
+const VideoStackNavigator = createStackNavigator(
+  {
+    VideoList: {
+      screen: VideoListScreen
+    },
+    VideoDetails: {
+      screen: VideoDetailsScreen
+    }
   },
-  VideoDetails: {
-    screen: VideoDetailsScreen
-  }
-});
+  { headerMode: "none" }
+);
 
 const PictureStackNavigator = createStackNavigator(
   {

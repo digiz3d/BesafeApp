@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, View, Text } from "react-native";
-import Video from 'react-native-video';
+import VideoPlayer from "react-native-video-controls";
 import { authHeader } from "../config/WebDavClient";
 
 export default class VideoDetailsScreen extends React.Component {
@@ -9,19 +9,20 @@ export default class VideoDetailsScreen extends React.Component {
   }
 
   render() {
-    const { getParam } = this.props.navigation;
+    const { navigation } = this.props;
+    const { getParam } = navigation;
     return (
-      <View>
-        {/*<Text>url = {getParam("url")}</Text>*/}
-        <Video
-          source={{
-            uri: getParam("url"),
-            headers: { Authorization: authHeader }
-          }}
-          resizeMode='contain'
-          style={{ height: '100%', width: '100%' }}
-        />
-      </View>
+      <VideoPlayer
+        source={{
+          uri: getParam("url"),
+          headers: { Authorization: authHeader }
+        }}
+        navigator={navigation}
+        disableVolume
+        resizeMode="contain"
+        videoStyle={{ height: "100%", width: "100%" }}
+        style={{ height: "100%", width: "100%" }}
+      />
     );
   }
 }

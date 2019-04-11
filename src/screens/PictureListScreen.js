@@ -8,20 +8,14 @@ import {
   TouchableOpacity
 } from "react-native";
 
-import {
-  getPictures,
-  getPictureBase64,
-  getPictureURL,
-  authHeader
-} from "../config/WebDavClient";
+import { getPictures, getFileURL, authHeader } from "../config/WebDavClient";
 
 export default class PictureListScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      items: [],
-      pictures: []
+      items: []
     };
 
     this.refreshPictures = this.refreshPictures.bind(this);
@@ -33,19 +27,7 @@ export default class PictureListScreen extends React.Component {
 
   async refreshPictures() {
     const files = await getPictures();
-    console.warn(files);
-    let pictures = {};
-
-    console.warn("cc cc");
-    try {
-      for (let f in files) {
-        console.warn("files[f].filename vaut " + files[f].filename);
-        pictures[files[f].filename] = files[f].filename;
-      }
-    } catch (e) {
-      console.warn("ça va pas du tout" + e);
-    }
-    this.setState({ items: files, pictures });
+    this.setState({ items: files });
   }
 
   render() {
@@ -58,37 +40,35 @@ export default class PictureListScreen extends React.Component {
           <FlatList
             style={styles.pictureList}
             data={this.state.items}
+            refreshing={false}
+            onRefresh={() => this.refreshPictures()}
             renderItem={({ item }) => (
               <TouchableOpacity
                 key={"view-" + item.filename}
                 style={{ flexDirection: "column", padding: 3 }}
                 onPress={() =>
                   navigation.navigate("PictureDetails", {
-                    url: getPictureURL(item.filename)
+                    url: getFileURL(item.filename)
                   })
                 }
               >
-                {/*<Text>test: {getPictureURL(item.filename)}</Text>*/}
-                {this.state.pictures[item.filename] !== "" ? (
-                  <View style={{ flexDirection: "row" }}>
-                    <Image
-                      source={{
-                        uri: getPictureURL(item.filename),
-                        headers: { Authorization: authHeader }
-                      }}
-                      style={{ height: 60, width: 60 }}
-                    />
-                    <Text
-                      style={[
-                        styles.pictureItem,
-                        { height: 60, lineHeight: 50, fontSize: 16 }
-                      ]}
-                    >
-                      {item.basename}
-                    </Text>
-                  </View>
-                ) : null}
-
+                <View style={{ flexDirection: "row" }}>
+                <Image
+                    source={{
+                      uri: getFileURL(item.filename),
+                      headers: { Authorization: authHeader }
+                    }}
+                    style={{ height: 60, width: 60 }}
+                  />
+                  <Text
+                    style={[
+                      styles.pictureItem,
+                      { height: 60, lineHeight: 50, fontSize: 16 }
+                    ]}
+                  >
+                    {item.basename}
+                  </Text>
+                </View>
                 <View
                   style={{
                     width: "80%",
@@ -101,8 +81,6 @@ export default class PictureListScreen extends React.Component {
                 />
               </TouchableOpacity>
             )}
-            refreshing={false}
-            onRefresh={() => this.refreshPictures()}
           />
         )}
       </View>
