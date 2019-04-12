@@ -3,6 +3,10 @@ import { SafeAreaView, StyleSheet, StatusBar, View } from "react-native";
 import AppNavigator from "./src/config/AppNavigator";
 
 export default class App extends Component {
+  componentDidMount() {
+    console.disableYellowBox = true;
+  }
+  
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#d43939" }}>

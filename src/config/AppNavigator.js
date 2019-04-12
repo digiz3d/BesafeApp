@@ -16,6 +16,7 @@ import PictureDetailsScreen from "../screens/PictureDetailsScreen";
 import VideoListScreen from "../screens/VideoListScreen";
 import VideoDetailsScreen from "../screens/VideoDetailsScreen";
 import StreamScreen from "../screens/StreamScreen";
+import HelpScreen from "../screens/HelpScreen";
 
 const VideoStackNavigator = createStackNavigator(
   {
@@ -62,7 +63,7 @@ const MainTabNavigator = createBottomTabNavigator(
       }
     },
     Help: {
-      screen: () => <View />,
+      screen: HelpScreen,
       navigationOptions: {
         tabBarIcon: <Ionicons name="md-help" color="#6CD3DB" size={30} />
       }
