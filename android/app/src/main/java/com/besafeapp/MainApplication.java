@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.brentvatne.react.ReactVideoPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.ksyun.media.reactnative.ReactKSYVideoPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -28,7 +27,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new ReactVideoPackage(),
-            new VectorIconsPackage(),
             new ReactKSYVideoPackage(),
             new RNGestureHandlerPackage()
       );

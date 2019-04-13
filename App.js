@@ -9,7 +9,7 @@ export default class App extends Component {
   
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#d43939" }}>
+      <View style={{ flex: 1, backgroundColor: "#FFF" }}>
         <SafeAreaView />
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
           <StatusBar />
